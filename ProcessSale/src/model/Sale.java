@@ -49,7 +49,7 @@ public class Sale {
         else if(amountPaid - runningTotal > 0){
             return amountPaid - runningTotal;
         }
-        return 65.12;//felmeddelande
+        return 65.12;//felmeddelande till kassören
     }
 
     public String toString(){
