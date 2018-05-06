@@ -6,34 +6,50 @@ import integration.ItemDTO;
 import model.Quantity;
 import model.Receipt;
 import model.Sale;
+import model.SaleDTO;
 
+/**
+ *Represents the class delegating the work to the right class and method.
+ */
 public class Controller{
     private Inventory inventory;
     private Sale currentSale;
     private ExternalAccSys externalAccSys;
 
+    /**
+     * This is the constructor of the object Controller,
+     * as it is created it creates the inventory and the external accounting system
+     * @param externalAccSys This is the external accounting system
+     */
     public Controller(ExternalAccSys externalAccSys){
         this.inventory = new Inventory();
         this.externalAccSys = externalAccSys;
     }
 
+    /**
+     * Cashier creates a new order to scan the customers items to.
+     */
     public void startNewSale(){
         currentSale = new Sale();
     }
 
-    public void scanItem(int barcode, Quantity quantity){
+    /**
+     * Cashier scans an item and searches in the system if the item exists and then adds it to the order.
+     * @param barcode This is the specific number of the item which you can search for in the system.
+     * @param quantity This is the quantity of the searched item
+     */
+    public SaleDTO scanItem(int barcode, Quantity quantity){
         ItemDTO foundItem = inventory.getItem(barcode);
-        currentSale.addItem(foundItem, quantity);
+        return currentSale.addItem(foundItem, quantity);
     }
 
-    public void allItemsRegistered(){
-        System.out.println("\n" + currentSale.toString());
-    }
-
-    public void payment(double amountPaid){
+    /**
+     * Cashier enters how much the customer payed and the system then calculates the change.
+     * It also creates a new receipt, and sends sale information to an external accounting system.
+     * @return It returns a receipt ready for printout.
+     */
+    public Receipt payment(){
         externalAccSys.logSale(currentSale);
-        Receipt receipt = new Receipt(currentSale);
-        System.out.println(receipt);
-        System.out.println("\n" + "Amount of change back:" + currentSale.calculateChange(amountPaid));
+        return new Receipt(currentSale);
     }
 }
