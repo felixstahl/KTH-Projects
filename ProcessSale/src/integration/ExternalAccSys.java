@@ -3,7 +3,7 @@ package integration;
 import model.Sale;
 
 /**
- * This class represents an external accounting system which needs every sales information.
+ * This class represents an <code>external accoutning system</code> which needs every sales information.
  * Since this is not a real external system it does not perform anything other than recieving information.
  */
 public class ExternalAccSys {

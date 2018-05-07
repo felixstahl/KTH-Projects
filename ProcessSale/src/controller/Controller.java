@@ -17,8 +17,8 @@ public class Controller{
     private ExternalAccSys externalAccSys;
 
     /**
-     * This is the constructor of the object Controller,
-     * as it is created it creates the inventory and the external accounting system
+     * This is the constructor of the object <code>Controller</code>,
+     * as it is created it creates the i<code>inventory</code> and the <code>external accounting system</code>
      * @param externalAccSys This is the external accounting system
      */
     public Controller(ExternalAccSys externalAccSys){
@@ -45,7 +45,7 @@ public class Controller{
 
     /**
      * Cashier enters how much the customer payed and the system then calculates the change.
-     * It also creates a new receipt, and sends sale information to an external accounting system.
+     * It also creates a new receipt, and sends sale information to an <code>external accounting system</code>.
      * @return It returns a receipt ready for printout.
      */
     public Receipt payment(){

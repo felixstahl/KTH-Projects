@@ -1,7 +1,7 @@
 package integration;
 
 /**
- * This class represents the object ItemDTO that contains information about every item. Such as name, price and barcode.
+ * This class represents the object <code>ItemDTO</code> that contains information about every item. Such as name, price and barcode.
  */
 public class ItemDTO {
     private String itemName;
@@ -9,7 +9,7 @@ public class ItemDTO {
     private int barcode;
 
     /**
-     * This is one of the two constructors of the ItemDTO, it contains information about the product.
+     * This is one of the two constructors of the <code>ItemDTO</code>, it contains information about the product.
      * @param itemName This is the name of the item.
      * @param price This is the price of the item.
      * @param barcode This is the ID of the product.

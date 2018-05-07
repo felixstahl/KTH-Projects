@@ -10,8 +10,8 @@ public class SaleDTO {
     private ItemDTO lastScannedItem;
 
     /**
-     * This is the constructor of the object called SaleDTO
-     * @param currentSale This is the object of the current sale, which contains informatinon about the sale
+     * This is the constructor of the object called <code>SaleDTO</code>
+     * @param currentSale This is the object of the current sale, which contains information about the sale
      * @param lastScannedItem This is the object of the most recently scanned item,
      *                        which contains information about the item.
      */

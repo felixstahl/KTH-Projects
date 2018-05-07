@@ -13,7 +13,7 @@ public class Receipt {
     private LocalDateTime saleTime;
 
     /**
-     * This is the constructor of the object.
+     * This is the constructor of the object Receipt.
      * @param currentSale This is the current sale from the object 'Sale'
      */
     public Receipt(Sale currentSale){

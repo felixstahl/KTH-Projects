@@ -8,7 +8,7 @@ public class Quantity {
     private int quantity;
 
     /**
-     * This is the constructor of the object 'Quantity'.
+     * This is the constructor of the object <code>Quantity</code>.
      * @param quantity This is the quantity of an item.
      */
     public Quantity(int quantity){

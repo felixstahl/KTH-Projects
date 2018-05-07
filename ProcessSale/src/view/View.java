@@ -15,7 +15,7 @@ public class View {
     private SaleDTO saleDTO;
 
     /**
-     *This is the constructor of the view as it is created.
+     *This is the constructor of the view.
      * @param contr It is an instance of a control object.
      */
     public View(Controller contr){

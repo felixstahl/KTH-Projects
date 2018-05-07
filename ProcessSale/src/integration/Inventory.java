@@ -34,7 +34,7 @@ public class Inventory {
     }
 
     /**
-     * This method searches and creates a new ItemDTO for the found item.
+     * This method searches and creates a new <code>ItemDTO</code> for the found item.
      * @param barcode This is the ID of the product.
      * @return This is the ItemDTO that is returning or null if the item is not found.
      */
