@@ -1,4 +1,4 @@
-package integration;
+/*package integration;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,4 +22,4 @@ public class InventoryTest {
     public void getItem() {
         assertEquals("Banana", inventory.getItem(111).getName());
     }
-}
+}*/

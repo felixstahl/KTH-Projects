@@ -5,7 +5,7 @@ package integration;
  */
 public class ItemDTO {
     private String itemName;
-    private double price;
+    private double price = 0;
     private int barcode;
 
     /**

@@ -42,7 +42,7 @@ public class Sale {
      * @param foundItem This is the scanned item of the type ItemDTO which includes information about the item.
      * @param quantity This is the quantity of the item.
      * @return The return value is of object SaleDTO,
-     *      which includes information about the current sale and the last scanned item
+     *         which includes information about the current sale and the last scanned item
      */
     public SaleDTO addItem(ItemDTO foundItem, Quantity quantity){
         if(items.containsKey(foundItem)){

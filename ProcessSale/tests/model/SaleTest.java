@@ -1,6 +1,6 @@
 package model;
 
-import integration.Inventory;
+/*import integration.Inventory;
 import integration.ItemDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,4 +30,4 @@ public class SaleTest {
     public void calculateTax() {
         assertEquals(1.2,testSale.calculateTax(),0);
     }
-}
+}*/

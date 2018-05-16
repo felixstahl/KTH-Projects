@@ -19,6 +19,7 @@ public class Inventory {
         items.add(new ItemDTO("Cucumber", 15, 222));
         items.add(new ItemDTO("Orange", 20, 333));
         items.add(new ItemDTO("Lemon", 25, 444));
+        items.add(new ItemDTO("DatabaseFailure", 30, 555));
     }
 
     /**
@@ -36,13 +37,17 @@ public class Inventory {
     /**
      * This method searches and creates a new <code>ItemDTO</code> for the found item.
      * @param barcode This is the ID of the product.
-     * @return This is the ItemDTO that is returning or null if the item is not found.
+     * @return This is the ItemDTO that is returning.
+     * @throws ItemNotFoundException If item is not found an exception will be thrown.
+     * @throws DatabaseFailureException If database fails an exception will be thrown.
      */
-    public ItemDTO getItem(int barcode){
-        if(itemExists(barcode)){
-            return items.get(items.indexOf(new ItemDTO(barcode)));
-        }else{
-            return null;
+    public ItemDTO getItem(int barcode) throws ItemNotFoundException, DatabaseFailureException {
+        if(!itemExists(barcode)){
+            throw new ItemNotFoundException("Item with barcode:" + barcode + " does not exist in inventory");
         }
+        if(items.get(items.indexOf(new ItemDTO(barcode))) == items.get(items.indexOf(new ItemDTO(555)))){
+            throw new DatabaseFailureException("Database Failure");
+        }
+        return items.get(items.indexOf(new ItemDTO(barcode)));
     }
 }

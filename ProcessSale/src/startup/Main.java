@@ -2,6 +2,7 @@ package startup;
 
 import controller.Controller;
 import integration.ExternalAccSys;
+import view.TotalRevenueView;
 import view.View;
 
 /**
@@ -17,6 +18,7 @@ public class Main {
         ExternalAccSys externalAccSys = new ExternalAccSys();
         Controller contr = new Controller(externalAccSys);
         View view = new View(contr);
+        contr.addPriceObserver(new TotalRevenueView());
 
         view.sampleExecution();
     }
