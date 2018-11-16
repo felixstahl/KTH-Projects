@@ -83,7 +83,7 @@
 			if(isset($_SESSION['username']) && $entry->getUserName() === $_SESSION['username']){
 				echo("<form action='deleteComments.php'>");
 				echo("<input type='hidden' name='timestamp' value='" . $entry->getTimestamp() . "'/>");
-				echo("<input type='hidden' name='delete' value='pancakes'/>");// this is added
+				echo("<input type='hidden' name='delete' value='pancakes'/>");
 				echo("<input type='submit' value='Delete'/>");
 				echo("</form>");
 			}
