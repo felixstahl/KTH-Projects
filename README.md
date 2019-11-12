@@ -1,5 +1,4 @@
 # KTH-projects
-KTH-projects
+This repository is supposed to be devided by each course from KTH in each folder, but somewhere along the way it didn't stay that way. It's a total mess, deal with it.
 
-This repository is a total mess from the start, deal with it.
-In all seriousness i had no idea what i was doing in the beginning, im slowly making this repo more structured(or not, ill leave it as a memory of when i first learned how to code).
+In all seriousness I had no idea what I was doing in the beginning, I'm slowly making this repo more structured(or not, I'll leave it as a memory from when I first learned how to code).
