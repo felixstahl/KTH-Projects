@@ -13,7 +13,7 @@ public class Game{
   int tries = 0;
   int score = 0;
 
-  public Game(){
+  public Game() throws IOException{
     Scanner s = new Scanner(new File("C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\ID1212\\task2\\server\\logic\\words.txt"));
     this.wordList = new ArrayList<String>();
     while (s.hasNext()){
@@ -37,23 +37,42 @@ public class Game{
           guessedWord[i] = clientInput.charAt(0);
         }
       }
-      if(String.copyValueOf(guessedWord).equalsIgnoreCase(correctWord)){  state = 1;  }
+      if(String.copyValueOf(guessedWord).equalsIgnoreCase(correctWord)){
+        state = 1;
+        score = score + 1;
+      }
       if(state == 3){
         tries--;
-        if(tries <= 0){ state = 0;  }
+        if(tries <= 0){
+          state = 0;
+          score = score - 1;
+        }
       }
     }
     else{
-      if(clientInput.equalsIgnoreCase(correctWord)){ state = 1; }
+      if(clientInput.equalsIgnoreCase(correctWord)){
+        state = 1;
+        score = score + 1;
+      }
       else{
         tries--;
-        if(tries <= 0){ state = 0; }
+        if(tries <= 0){
+          state = 0;
+          score = score - 1;
+        }
       }
     }
     return state;
   }
 
-  public String getWord(){    // if guessed a letter right, this will return the word
+  public void newWord(){
+    correctWord = chooseWord();
+    tries = correctWord.length() - 1;
+    guessedWord = new char[correctWord.length()];
+    Arrays.fill(guessedWord, '_');
+  }
+
+  public String getWord(){/* if guessed a letter right or wrong, this will return the word  */
     return String.copyValueOf(guessedWord);
   }
   public String lostWord(){   //  if game is lost, this will return the word
@@ -68,6 +87,6 @@ public class Game{
   private String chooseWord(){
     Random randomInt = new Random();
     String strWord = wordList.get(randomInt.nextInt(wordList.size()));
-    return strWord.toUpperCase();
+    return strWord.toLowerCase();
   }
 }

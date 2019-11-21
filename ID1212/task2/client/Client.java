@@ -20,13 +20,18 @@ public class Client{
       Thread connection = new Thread(new Connection(channel, selector));
       connection.start();
 
-      System.out.println("Client is up and running...");
+      System.out.println("Client is up and running, guess something or quit with '!'");
 
       BufferedReader inFromClient = new BufferedReader(new InputStreamReader(System.in));
   		String input;
       ByteBuffer buffer = ByteBuffer.allocate(1024);
       while(true){
         input = inFromClient.readLine();
+        if(input.equalsIgnoreCase("!")){
+          System.out.println("you have quit the game");
+          channel.close();
+					System.exit(0);
+        }
         buffer.clear();
         buffer.putLong(input.length());
         buffer.put(input.getBytes());

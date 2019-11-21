@@ -62,9 +62,29 @@ public class Connection implements Runnable{
       String message = new String(args);
 
       String[] res = new String(args).split("::");
-      System.out.println("From server " + res[0]);
 
-
+      switch(Integer.parseInt(res[0])){
+        case 0:{  // game lost
+          System.out.println("You lost, the word was: " + res[1] + ", score: " + Integer.parseInt(res[2]));
+          System.out.println("A new word is ready, keep guessing or quit with '!'");
+          break;
+        }
+        case 1:{  // game won
+          System.out.println("You won, the word was: " + res[1] + ", score: " + Integer.parseInt(res[2]));
+          System.out.println("A new word is ready, keep guessing or quit with '!'");
+          break;
+        }
+        case 2:{  // guessed right
+          System.out.println("correct guess, the word is: " + res[1] + ", tries: " + Integer.parseInt(res[2]));
+          System.out.println("A new word is ready, keep guessing or quit with '!'");
+          break;
+        }
+        case 3:{  // guessed wrong
+          System.out.println("Wrong guess, the word is: " + res[1] + ", tries: " + Integer.parseInt(res[2]));
+          System.out.println("A new word is ready, keep guessing or quit with '!'");
+          break;
+        }
+      }
     } catch(Exception e){ System.out.println("Exception catched in readServer inside Connection.java"); }
   }
 }
