@@ -10,7 +10,7 @@ import java.nio.channels.*;
 import logic.*;
 
 public class ClientManager{
-  private Map<SocketChannel, Game> allGames = new HashMap<>();
+  private HashMap<SocketChannel, Game> allGames = new HashMap<SocketChannel, Game>();
   private Selector selector;
   private ServerSocketChannel ssChannel;
 
