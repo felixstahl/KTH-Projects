@@ -30,7 +30,7 @@ public class Client{
         if(input.equalsIgnoreCase("!")){
           System.out.println("you have quit the game");
           channel.close();
-					System.exit(0);
+          System.exit(0);
         }
         buffer.clear();
         buffer.putLong(input.length());

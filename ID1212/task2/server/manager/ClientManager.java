@@ -16,10 +16,11 @@ public class ClientManager{
 
   public ClientManager() throws Exception{
     try{
-      selector = selector.open();
       ssChannel = ServerSocketChannel.open();
       ssChannel.configureBlocking(false);
       ssChannel.socket().bind(new InetSocketAddress("127.0.0.1", 8888));
+      selector = selector.open();
+
       int ops = ssChannel.validOps();
       ssChannel.register(selector, ops, SelectionKey.OP_ACCEPT);
       running();
@@ -38,6 +39,11 @@ public class ClientManager{
           while(keys.hasNext()){
             SelectionKey key = keys.next();
             keys.remove();
+
+            if(!key.isValid()){
+              continue;
+            }
+
             if(key.isAcceptable()){
               acceptClient(key);
             }
@@ -58,7 +64,7 @@ public class ClientManager{
     client.configureBlocking(false);
     client.register(selector, SelectionKey.OP_READ);
     allGames.put(client, new Game());
-    Game game = allGames.get(client);
+    //Game game = allGames.get(client);
     System.out.println("Game is up and running, the word is: " + game.lostWord());
   }
 
@@ -67,7 +73,15 @@ public class ClientManager{
     Game game = allGames.get(readChannel);
     ByteBuffer buffer = ByteBuffer.allocate(1024);
     buffer.clear();
-    readChannel.read(buffer);
+    int read;
+    read = readChannel.read(buffer);
+
+    if (read == -1) {
+      System.out.println("Nothing was there to be read, closing connection");
+      readChannel.close();
+      key.cancel();
+      return;
+    }
 
     buffer.flip();
     long dataLength = buffer.getLong();

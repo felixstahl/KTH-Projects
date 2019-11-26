@@ -19,7 +19,7 @@ public class Connection implements Runnable{
 
   public void run(){
     try{
-      while (true){
+      while(true){
         this.selector.select();
         Iterator<SelectionKey> keys = this.selector.selectedKeys().iterator();
 
@@ -35,6 +35,7 @@ public class Connection implements Runnable{
           }
         }
       }
+      //channel.disconnect();
     }catch(Exception e){ System.out.println("Exception catched in run inside Connection.java");  }
   }
 
