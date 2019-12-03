@@ -4,10 +4,6 @@ import java.rmi.registry.Registry;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry; 
-import java.rmi.RemoteException; 
-import java.rmi.server.UnicastRemoteObject;
-
-import common.CatalogServer;
 import server.controller.Controller; 
 
 public class Startup { 
@@ -16,7 +12,7 @@ public class Startup {
 	   
 	   try {
 		   new Startup().startRegistry();
-		   Naming.rebind(CatalogServer.SERVER_NAME_IN_REGISTRY, controller);
+		   Naming.rebind("CATALOG_SERVER", controller);
 		   System.out.println("Server is running");
 		   
        } catch(Exception e) {

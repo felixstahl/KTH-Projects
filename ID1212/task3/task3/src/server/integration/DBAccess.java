@@ -12,13 +12,10 @@ public class DBAccess{
 	private PreparedStatement createUserStmt;
     private PreparedStatement findUserStmt;
     private PreparedStatement loginUserStmt;
-    
-    //private PreparedStatement findAllAccountsStmt;
-    //private PreparedStatement checkFileStmt;
-    //private PreparedStatement storeFileStmt;
-    //private PreparedStatement updateFileStmt;
-    //private PreparedStatement findAllFilesStmt;
-    //private PreparedStatement deleteFileStmt;
+    private PreparedStatement uploadMetaDataStmt;
+    private PreparedStatement downloadMetaDataStmt;
+    private PreparedStatement searchFileStmt;
+    private PreparedStatement printStmt;
 	
 	public DBAccess(){
 		try	{
@@ -38,9 +35,9 @@ public class DBAccess{
 			createUserStmt = connection.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
 			createUserStmt.setString(1, uname);
             createUserStmt.setString(2, pword);
-            int rows = createUserStmt.executeUpdate();
             
-            if (rows != 1)
+            int rows = createUserStmt.executeUpdate();
+            if(rows != 1)
             	return false;
             
 		}catch(SQLException e) {	System.out.println(e.getMessage());	}
@@ -66,10 +63,83 @@ public class DBAccess{
 		if(result.next()) {
 			String username = result.getString("USERNAME");
 			String password = result.getString("PASSWORD");
-			if(username.equals(uname) && password.equals(pword)) {
+			if(username.equalsIgnoreCase(uname) && password.equalsIgnoreCase(pword))
 				return true;
-			}
 		}
 		return false;
 	}
+	
+	public boolean uploadMetaData(String[] attributes) throws SQLException {
+		try {
+			if(fileSearch(attributes))
+				return false;
+			else {
+				//upload file to db
+				uploadMetaDataStmt = connection.prepareStatement("INSERT INTO files (filename, owner, size) VALUES (?, ?, ?)");
+				uploadMetaDataStmt.setString(1, attributes[0]);
+				uploadMetaDataStmt.setString(2, attributes[1]);
+				uploadMetaDataStmt.setString(3, attributes[2]);
+				
+		        int rows = uploadMetaDataStmt.executeUpdate();
+		        if(rows != 1)
+		        	return false;
+			}
+			
+		}catch(SQLException e) {	System.out.println("error catched in upload" + e.getMessage());	}
+	
+		return true;
+	}
+	public boolean fileSearch(String[] attributes) {	//true for existing, false for not existing
+		try {
+			searchFileStmt = connection.prepareStatement("SELECT * from files WHERE filename = ?");
+			searchFileStmt.setString(1, attributes[0]);
+			ResultSet result = searchFileStmt.executeQuery();
+			return result.next();
+			
+		}catch(Exception e) {	System.out.println("Error catched in flieSearch");	}
+		
+		return false;
+	}
+	public String[] downloadMetaData(String fileName) throws SQLException {
+		String[] attributes = new String[4];
+		attributes[0] = "0";
+		
+		try {
+			//check if file exists in db
+			searchFileStmt = connection.prepareStatement("SELECT * from files WHERE filename = ?");
+			searchFileStmt.setString(1, fileName);
+			ResultSet result = searchFileStmt.executeQuery();
+			if(!result.next()) {
+				return attributes;
+			}
+			
+			//download meta data from file
+			downloadMetaDataStmt = connection.prepareStatement("SELECT * from files WHERE filename = ?");
+			downloadMetaDataStmt.setString(1, fileName);
+			result = downloadMetaDataStmt.executeQuery(); 
+			if(result.next()) {
+				attributes[0] = "1";
+				attributes[1] = result.getString("FILENAME");
+				attributes[2] = result.getString("OWNER");
+				attributes[3] = result.getString("SIZE");
+			}
+			return attributes;
+		}catch(Exception e) {	System.out.println(e.getMessage());	}
+		
+		return attributes;
+	}
+	public void printbruh() {
+		try {
+			printStmt = connection.prepareStatement("SELECT * from files");
+			ResultSet result = printStmt.executeQuery();
+			System.out.println(": this is the filename" + result.getString("FILENAME"));
+			while(result.next()) {
+				System.out.println("this is the filename" + result.getString("FILENAME"));
+			}
+		}catch(Exception e) {
+			e.getStackTrace();
+		}
+	}
+	
+	
 }
