@@ -99,7 +99,19 @@ public class Controller extends UnicastRemoteObject implements CatalogServer{
 	}
 	
 	@Override
-	public void printDB() {
-		db.printFiles();
+	public void printDB(ClientCallback obj) {
+		try {
+			List<String> files = db.printFiles();
+			String[] fileNames = new String[files.size()];
+			int i = 0;
+			
+			for(String f : files) {
+				fileNames[i] = f;
+				i++;
+			}
+			
+			obj.allFiles(fileNames);
+			
+		}catch(RemoteException e) {	e.printStackTrace();	}
 	}
 }

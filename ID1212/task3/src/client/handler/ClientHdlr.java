@@ -86,8 +86,8 @@ public class ClientHdlr {
 					System.out.println("download filename");
 					break;
 				}
-				case "PRINT":{
-					stub.printDB();
+				case "ALLFILES":{
+					stub.printDB(callback);
 					break;
 				}
 				default:{

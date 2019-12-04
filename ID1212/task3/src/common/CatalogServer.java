@@ -11,7 +11,5 @@ public interface CatalogServer extends Remote {
 	void logout(String uname, ClientCallback obj) throws RemoteException;
 	void upload(String[] attributes, ClientCallback obj) throws RemoteException;
 	void download(String fileName, ClientCallback obj) throws RemoteException;
-	
-	// the following was just to test the db
-	void printDB() throws RemoteException;
+	void printDB(ClientCallback obj) throws RemoteException;
 }

@@ -11,4 +11,5 @@ public interface ClientCallback extends Remote{
 	void logoutCallback(boolean success) throws RemoteException;
 	void uploadCallback(boolean success) throws RemoteException;
 	void downloadCallback(String[] metaData) throws RemoteException;
+	void allFiles(String[] files) throws RemoteException;
 }

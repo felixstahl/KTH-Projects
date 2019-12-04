@@ -46,4 +46,10 @@ public class ClientImpl extends UnicastRemoteObject implements ClientCallback{
 		else
 			System.out.println("Server-side error. File doe not exist");
 	}
+	@Override
+	public void allFiles(String[] files) throws RemoteException {
+		for(String f : files) {
+			System.out.println(f);
+		}
+	}
 }

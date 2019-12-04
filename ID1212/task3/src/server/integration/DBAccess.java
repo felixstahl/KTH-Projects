@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBAccess{
 	String url = "jdbc:sqlite:C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\task3\\src\\server\\integration\\filecatalog.sqlite";
@@ -128,15 +130,17 @@ public class DBAccess{
 		return attributes;
 	}
 	
-	public void printFiles() {
+	public List<String> printFiles() {
+		List<String> files = new ArrayList<>();
 		try {
 			printStmt = connection.prepareStatement("SELECT * from files");
 			ResultSet result = printStmt.executeQuery();
 			while(result.next()) {
-				System.out.println("This file is in the DB: " + result.getString("FILENAME"));
+				files.add(result.getString("FILENAME"));
 			}
 		}catch(Exception e) {
 			e.getStackTrace();
 		}
+		return files;
 	}
 }
