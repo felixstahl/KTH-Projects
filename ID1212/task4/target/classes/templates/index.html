@@ -5,48 +5,45 @@
 		<meta charset="UTF-8">
 		<title>Currency converter</title>
 		<!-- reset css stylesheet -->
-		<link rel="stylesheet" type="text/css" href="reset.css">
+		<!--link rel="stylesheet" type="text/css" href="reset.css"-->
 		<!-- create css stylesheet  -->
 		<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	</head>
 
-	<body><h1>Currency Converter</h1>
-    	<div class="">
-    		<div id="" class="dropdown position-relative">
-    			<button type="button" id="dropdownMenuButton" class="btn">
-    				<span class="">American dollar (USD)</span>
-    			</button> 
-    			<div class="dropdown-menu">
-    				<span><a href="#" class="dropdown-item">American dollar (USD)</a></span>
-    				<span><a href="#" class="dropdown-item">Euro (EUR)</a></span>
-    				<span><a href="#" class="dropdown-item">Swedish crown (SEK)</a></span>
-                  	<span><a href="#" class="dropdown-item">Norwegian crown (NOK)</a></span>
-    			</div>
-         	</div>
-    	</div>
-    	
-		<div><p th:text="${helloworld}">Test</p></div>
+	<body>
+		<h1>Currency Converter</h1>
+		<h2>The 4 different currencies to convert between is</h2>
+		<div>
+			<ul>
+	  			<li>SEK (Swedish Krona)</li>
+	  			<li>NOK (Norwegian Krone)</li>
+	  			<li>USD (American Dollar)</li>
+	  			<li>EUR (Euro)</li>
+			</ul>
+		</div>
+    	<form th:action="@{/convert}" th:object="${convertForm}" method="post">
+      		<fieldset>
+       	 		<legend>Converter between SEK, NOK, USD and EUR</legend>
+        		<p>
+	          		<label>Enter which currency to convert from:</label>
+	          		<input type="text" th:field="*{fromCurrency}" placeholder="For example 'USD'" />
+	          		<!--span class="error" th:if="${#fields.hasErrors('fromCurrency')}" th:errors="*{fromCurrency}">fromCurrency Error</span-->
+          		</p>
+        		<p>
+			         <label>Enter which currency to convert to:</label>
+			         <input type="text" th:field="*{toCurrency}" placeholder="For example 'EUR'"/>
+			         <!--span class="error" th:if="${#fields.hasErrors('toCurrency')}" th:errors="*{toCurrency}">toCurrency Error</span-->
+        		</p>
+        		<p>
+          			<label>Enter the amount to convert:</label>
+          			<input type="text" th:field="*{amount}" placeholder="For example '100'"/>
+          			<!--span  th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Amount Error</span-->
+        		</p>
+        		
+        		<button type="submit">Convert</button>
+        		<!-- span class="error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Submit Error</span-->
+      		</fieldset>
+    	</form>
 	</body>
 	
 </html>
-<!--form>
-      		<fieldset>
-		        <legend>Currency Input</legend>
-		        	<div>
-					    	<div><a href="#">NOK</a></div>
-					    	<div><a href="#">SEK</a></div>
-					    	<div><a href="#">USD</a></div>
-					    	<div><a href="#">EUR</a></div>
-			        	<p>
-			          		<label>Enter the amount to convert: </label>
-			          		<input type = "number" id = "amountToConvert" value = "amount"/>
-			        	</p>
-		        	</div>
-		        	<p>
-			          	<label>This is what the selected currency is worth in</label>
-			          	<input type = "text" id = "convertedValue" value = "pop" />
-			          	<button class="dropbtn">Convert</button>
-		        	</p>
-      		</fieldset>
-    	</form-->
-    	
