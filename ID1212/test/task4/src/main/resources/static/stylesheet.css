@@ -1,0 +1,36 @@
+body {
+    font-family: 'Arial', cursive;
+    color: black;
+}
+
+input {
+	width: 20em;	
+}
+
+.error {
+	color: red;
+}
+
+/*h1 {
+	display: block;
+	text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+	font-size: 2em;
+}
+
+div {
+	display: block;
+	text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+	font-size: 0,7em;
+}
+
+div.input {
+	display: block;
+	text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+	font-size: 0,7em;
+}*/

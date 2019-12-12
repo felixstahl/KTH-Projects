@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaft.org">
+	
+	<head>
+		<meta charset="UTF-8">
+		<title>Currency converter</title>
+		<!-- reset css stylesheet -->
+		<!--link rel="stylesheet" type="text/css" href="reset.css"-->
+		<!-- create css stylesheet  -->
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	</head>
+
+	<body>
+		<h1>The result of the currency converter</h1>
+		
+		<div>
+			<h1>Result</h1>
+		    <p th:text="${convertForm.amount} + ' in ' + ${convertForm.fromCurrency} + ' = ' + ${convertForm.result} + ' in ' + ${convertForm.toCurrency}"/>
+		    <a href="/convert">Convert something else</a>
+		</div>
+	</body>
+	
+</html>
