@@ -18,7 +18,7 @@
 	  			<li>SEK (Swedish Krona)</li>
 	  			<li>NOK (Norwegian Krone)</li>
 	  			<li>USD (American Dollar)</li>
-	  			<li>EUR (Euro)</li>
+	  			<li>GBP (British Pound)</li>
 			</ul>
 		</div>
     	<form th:action="@{/convert}" th:object="${convertForm}" method="post">
@@ -26,12 +26,24 @@
        	 		<legend>Converter between SEK, NOK, USD and EUR</legend>
         		<p>
 	          		<label>Enter which currency to convert from:</label>
-	          		<input type="text" th:field="*{fromCurrency}" placeholder="For example 'USD'" />
+	          		<select th:field="*{fromCurrency}">
+	          			<option value="SEK">SEK</option>
+	          			<option value="USD">USD</option>
+	          			<option value="EUR">EUR</option>
+	          			<option value="GBP">GBP</option> 
+	          		</select>
+	          		<!--input type="text" th:field="*{fromCurrency}" placeholder="For example 'USD'" /-->
 	          		<!--span class="error" th:if="${#fields.hasErrors('fromCurrency')}" th:errors="*{fromCurrency}">fromCurrency Error</span-->
           		</p>
         		<p>
-			         <label>Enter which currency to convert to:</label>
-			         <input type="text" th:field="*{toCurrency}" placeholder="For example 'EUR'"/>
+			    	<label>Enter which currency to convert to:</label>
+		        	<select th:field="*{toCurrency}">
+          				<option value="USD">USD</option>
+	          			<option value="SEK">SEK</option>
+	          			<option value="EUR">EUR</option>
+	          			<option value="GBP">GBP</option> 
+          			</select>
+			         <!--input type="text" th:field="*{toCurrency}" placeholder="For example 'EUR'"/-->
 			         <!--span class="error" th:if="${#fields.hasErrors('toCurrency')}" th:errors="*{toCurrency}">toCurrency Error</span-->
         		</p>
         		<p>

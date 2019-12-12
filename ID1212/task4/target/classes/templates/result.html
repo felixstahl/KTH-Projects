@@ -15,9 +15,7 @@
 		
 		<div>
 			<h1>Result</h1>
-		    <p th:text="'from: ' + ${convertForm.fromCurrency}" />
-		    <p th:text="'to: ' + ${convertForm.toCurrency}" />
-		    <p th:text="'amount: ' + ${convertForm.amount}" />
+		    <p th:text="${convertForm.amount} + ' in ' + ${convertForm.fromCurrency} + ' = ' + ${convertForm.result} + ' in ' + ${convertForm.toCurrency}"/>
 		    <a href="/convert">Convert something else</a>
 		</div>
 	</body>
