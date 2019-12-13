@@ -1,8 +1,7 @@
 package se.felix.controller;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import se.felix.integration.DbHandler;
 
 public class ConvertForm {
 	
@@ -13,7 +12,7 @@ public class ConvertForm {
 	private String toCurrency;
 	
 	@NotNull
-	@PositiveOrZero
+	@Min(value = 0)
 	private double amount;
 	
 	private double result;
@@ -42,9 +41,8 @@ public class ConvertForm {
 		this.amount = amount;
 	}
 	
-	public void setResult() {
-		DbHandler db = new DbHandler();
-		this.result = amount * db.convert(this.fromCurrency, this.toCurrency);
+	public void setResult(double rate) {
+		this.result = amount * rate;
 	}
 	
 	public double getResult() {

@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaft.org">
-	
 	<head>
 		<meta charset="UTF-8">
 		<title>Currency converter</title>
-		<!-- reset css stylesheet -->
-		<!--link rel="stylesheet" type="text/css" href="reset.css"-->
 		<!-- create css stylesheet  -->
 		<link rel="stylesheet" type="text/css" href="stylesheet.css">
 	</head>
@@ -30,10 +27,8 @@
 	          			<option value="SEK">SEK</option>
 	          			<option value="USD">USD</option>
 	          			<option value="EUR">EUR</option>
-	          			<option value="GBP">GBP</option> 
+	          			<option value="NOK">NOK</option> 
 	          		</select>
-	          		<!--input type="text" th:field="*{fromCurrency}" placeholder="For example 'USD'" /-->
-	          		<!--span class="error" th:if="${#fields.hasErrors('fromCurrency')}" th:errors="*{fromCurrency}">fromCurrency Error</span-->
           		</p>
         		<p>
 			    	<label>Enter which currency to convert to:</label>
@@ -41,19 +36,16 @@
           				<option value="USD">USD</option>
 	          			<option value="SEK">SEK</option>
 	          			<option value="EUR">EUR</option>
-	          			<option value="GBP">GBP</option> 
+	          			<option value="NOK">NOK</option> 
           			</select>
-			         <!--input type="text" th:field="*{toCurrency}" placeholder="For example 'EUR'"/-->
-			         <!--span class="error" th:if="${#fields.hasErrors('toCurrency')}" th:errors="*{toCurrency}">toCurrency Error</span-->
         		</p>
         		<p>
           			<label>Enter the amount to convert:</label>
           			<input type="text" th:field="*{amount}" placeholder="For example '100'"/>
-          			<!--span  th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Amount Error</span-->
+          			<span  th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Amount Error</span>
         		</p>
         		
         		<button type="submit">Convert</button>
-        		<!-- span class="error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Submit Error</span-->
       		</fieldset>
     	</form>
 	</body>
