@@ -12,9 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBAccess{
-	String url = "jdbc:sqlite:C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\project\\src\\server\\integration\\daycare.sqlite";
+	//String url = "jdbc:sqlite:C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\project\\src\\server\\integration\\daycare.sqlite";
 	private Connection connection;
+
+	private String url = "jdbc:ucanaccess://C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\project\\src\\server\\integration\\daycare.accdb";
+	private String driver = "net.ucanaccess.jdbc.UcanaccessDriver";
+	//private String user = "";
+	//private String password = "";
+
+
 	
+			
 	//private PreparedStatement employeeAuthStmt;
 	private PreparedStatement employeeExistStmt;
 	private PreparedStatement addEmployeeStmt;
@@ -29,13 +37,23 @@ public class DBAccess{
 	
 	public DBAccess(){
 		try	{
+			// register the driver with DriverManager
+			Class.forName(driver);
 			connection = DriverManager.getConnection(url);
 			if(connection != null){
-		    	DatabaseMetaData meta = connection.getMetaData();
-		    	System.out.println("The driver name is: " + meta.getDriverName());
+				
+				// create a connection to the database
+				connection = DriverManager.getConnection(url);
+				// Set the auto commit of the connection to false.
+				// An explicit commit will be required in order to accept
+				// any changes done to the DB through this connection.
+				System.out.println("howdy");
+				//connection.setAutoCommit(false);
+		    	//DatabaseMetaData meta = connection.getMetaData();
+		 //   	System.out.println("The driver name is: " + meta.getDriverName());
 		    	System.out.println("Connection to database established");
 		    }
-		}catch (SQLException e){
+		}catch (Exception e){
 			System.out.println("Something went wrong in DBAccess.java: " + e.getMessage());
 		}
 	}
