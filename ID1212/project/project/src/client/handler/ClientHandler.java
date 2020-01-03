@@ -46,8 +46,12 @@ public class ClientHandler {
 					break;
 				}
 				case "LOGINEMP":{
-					if(input.length == 3)
-						stub.loginEmployee(input[1], input[2], callback);
+					if(input.length == 3) {
+						//if(callback.getLoggedIn() == false)
+							stub.loginEmployee(input[1], input[2], callback);
+						//else
+							//System.out.println("Already logged in. Type HELP for help");
+					}
 					else
 						System.out.println("Wrong parameters, type HELP for help");
 					
@@ -55,16 +59,51 @@ public class ClientHandler {
 				}
 				case "LOGOUTEMP":{
 					if(input.length == 2){
-						stub.logoutEmployee(input[1], callback);
+						//if(callback.getLoggedIn() == true)
+						//	System.out.println("Already logged in. Type HELP for help");
+						//else
+							stub.logoutEmployee(input[1], callback);
 					}
 					else 
 						System.out.println("Wrong parameters, type HELP for help");
 					
 					break;
 				}
-				case "ADDDOG":{
+				case "SEARCHOWNER":{
 					if(input.length == 3)
-						stub.addDog(input[1], input[2], callback);
+						stub.searchOwner(input[1], input[2], callback);
+					else
+						System.out.println("Wrong parameters, type HELP for help");
+					
+					break;
+				}
+				case "ADDOWNER":{
+					if(input.length == 3)
+						stub.addOwner(input[1], input[2], callback);
+					else
+						System.out.println("Wrong parameters, type HELP for help");
+					
+					break;
+				}
+				case "REMOVEOWNER":{
+					if(input.length == 3)
+						stub.removeOwner(input[1], input[2], callback);
+					else
+						System.out.println("Wrong parameters, type HELP for help");
+					
+					break;
+				}
+				case "SEARCHDOG":{
+					if(input.length == 3)
+						stub.searchDog(input[1], input[2], callback);
+					else
+						System.out.println("Wrong parameters, type HELP for help");
+					
+					break;
+				}
+				case "ADDDOG":{
+					if(input.length == 4)
+						stub.addDog(input[1], input[2], input[3], callback);
 					else
 						System.out.println("Wrong parameters, type HELP for help");
 					
@@ -107,13 +146,19 @@ public class ClientHandler {
 					System.out.println("All the different commands are entered the following way: ");
 					System.out.println("   ------   ");
 					System.out.println("- addEmp adder addee addee-password");
-					System.out.println("- removeEmp removER removEE");
+					System.out.println("- removeEmp removER removEE removEEPword");
 					System.out.println("- loginEmp username password");
 					System.out.println("- logoutEmp username");
-					System.out.println("- addDog dogName ownerName");
-					System.out.println("- removeDog dogName ownerName");
-					System.out.println("- checkIn name owner");
-					System.out.println("- checkOut name owner");
+					System.out.println("---");
+					System.out.println("- searchOwner username address");
+					System.out.println("- addOwner username address");
+					System.out.println("- removeOwner username address");
+					System.out.println("---");
+					System.out.println("- searchDog name address");
+					System.out.println("- addDog dogName ownerName address");
+					System.out.println("- removeDog dogName address");
+					System.out.println("- checkIn name address");
+					System.out.println("- checkOut name address");
 					System.out.println("- presentdogs");
 					System.out.println("- allDogs");
 					System.out.println("   ------   ");

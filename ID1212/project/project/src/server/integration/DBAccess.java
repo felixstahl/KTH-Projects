@@ -1,78 +1,50 @@
 package server.integration;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.Map;
 import java.util.List;
 
 public class DBAccess{
-	//String url = "jdbc:sqlite:C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\project\\src\\server\\integration\\daycare.sqlite";
 	private Connection connection;
 
 	private String url = "jdbc:ucanaccess://C:\\Users\\mr_fe\\Desktop\\Natverksprogrammering\\project\\src\\server\\integration\\daycare.accdb";
 	private String driver = "net.ucanaccess.jdbc.UcanaccessDriver";
-	//private String user = "";
-	//private String password = "";
 
-
-	
-			
-	//private PreparedStatement employeeAuthStmt;
 	private PreparedStatement employeeExistStmt;
 	private PreparedStatement addEmployeeStmt;
 	private PreparedStatement removeEmployeeStmt;
 	private PreparedStatement loginEmployeeStmt;
+	
+	private PreparedStatement searchOwnerStmt;
+	private PreparedStatement addOwnerStmt;
+	private PreparedStatement removeOwnerStmt;
+	
 	private PreparedStatement addDogStmt;
 	private PreparedStatement removeDogStmt;
 	private PreparedStatement dogExistStmt;
 	private PreparedStatement searchDogStmt;
-	//private PreparedStatement allDogsOfOwnerStmt;
 	private PreparedStatement allDogsStmt;
 	
 	public DBAccess(){
 		try	{
-			// register the driver with DriverManager
+
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url);
 			if(connection != null){
 				
-				// create a connection to the database
 				connection = DriverManager.getConnection(url);
-				// Set the auto commit of the connection to false.
-				// An explicit commit will be required in order to accept
-				// any changes done to the DB through this connection.
-				System.out.println("howdy");
-				//connection.setAutoCommit(false);
-		    	//DatabaseMetaData meta = connection.getMetaData();
-		 //   	System.out.println("The driver name is: " + meta.getDriverName());
+
 		    	System.out.println("Connection to database established");
 		    }
 		}catch (Exception e){
 			System.out.println("Something went wrong in DBAccess.java: " + e.getMessage());
 		}
 	}
-	
-//	public boolean employeeAuthentication(String uname, String pword) throws SQLException {
-//		employeeAuthStmt = connection.prepareStatement("SELECT * from employees WHERE username = ? AND password = ?");
-//		employeeAuthStmt.setString(1, uname);
-//		employeeAuthStmt.setString(2, pword);
-//		ResultSet result = employeeAuthStmt.executeQuery();
-//		
-//		if(result.next()) {
-//			String username = result.getString("USERNAME");
-//			String password = result.getString("PASSWORD");
-//			if(username.equalsIgnoreCase(uname) && password.equalsIgnoreCase(pword))
-//				return true;
-//		}
-//		return false;
-//	}
-	
+
 	public boolean employeeExist(String uname) throws SQLException {
 		employeeExistStmt = connection.prepareStatement("SELECT * from employees WHERE username = ?");
 		employeeExistStmt.setString(1, uname);
@@ -121,10 +93,45 @@ public class DBAccess{
 		return false;
 	}
 	
-	public boolean addDog(String name, String owner) throws SQLException {
-		addDogStmt = connection.prepareStatement("INSERT INTO dogs (name, owner) VALUES (?, ?)");
+	public boolean searchOwner(String name, String address) throws SQLException {
+		searchOwnerStmt = connection.prepareStatement("SELECT * from owners WHERE ownerName = ? AND ownerAddress = ?");
+		searchOwnerStmt.setString(1, name);
+		searchOwnerStmt.setString(2, address);
+		ResultSet result = searchOwnerStmt.executeQuery();
+		
+		if(result.next())
+			return true;
+		return false;
+	}
+	
+	public boolean addOwner(String name, String address) throws SQLException {
+		addOwnerStmt = connection.prepareStatement("INSERT INTO owners (ownerName, ownerAddress) VALUES (?, ?)");
+		addOwnerStmt.setString(1, name);
+		addOwnerStmt.setString(2, address);
+        
+        int rows = addOwnerStmt.executeUpdate();
+        if(rows != 1)
+        	return false;
+            
+		return true;
+	}
+	
+	public boolean removeOwner(String name, String address) throws SQLException {
+		removeOwnerStmt = connection.prepareStatement("DELETE FROM owners WHERE ownerName = ? AND ownerAddress = ?");
+		removeOwnerStmt.setString(1, name);
+		removeOwnerStmt.setString(2, address);
+		
+		int rows = removeOwnerStmt.executeUpdate();
+        if(rows != 1)
+        	return false; 
+		
+		return true;
+	}
+	
+	public boolean addDog(String name, String address) throws SQLException {
+		addDogStmt = connection.prepareStatement("INSERT INTO dogs (dogName, ownerAddress) VALUES (?, ?)");
 		addDogStmt.setString(1, name);
-		addDogStmt.setString(2, owner);
+		addDogStmt.setString(2, address);
         
         int rows = addDogStmt.executeUpdate();
         if(rows != 1)
@@ -133,10 +140,10 @@ public class DBAccess{
 		return true;
 	}
 	
-	public boolean removeDog(String name, String owner) throws SQLException {
-		removeDogStmt = connection.prepareStatement("DELETE FROM dogs WHERE name = ? AND owner = ?");
+	public boolean removeDog(String name, String address) throws SQLException {
+		removeDogStmt = connection.prepareStatement("DELETE FROM dogs WHERE dogName = ? AND ownerAddress = ?");
 		removeDogStmt.setString(1, name);
-		removeDogStmt.setString(2, owner);
+		removeDogStmt.setString(2, address);
 		
 		int rows = removeDogStmt.executeUpdate();
         if(rows != 1)
@@ -145,10 +152,10 @@ public class DBAccess{
 		return true;
 	}
 	
-	public boolean dogExist(String name, String owner) throws SQLException {
-		dogExistStmt = connection.prepareStatement("SELECT * from dogs WHERE name = ? AND owner = ?");
+	public boolean dogExist(String name, String address) throws SQLException {
+		dogExistStmt = connection.prepareStatement("SELECT * from dogs WHERE dogName = ? AND ownerAddress = ?");
 		dogExistStmt.setString(1, name);
-		dogExistStmt.setString(2, owner);
+		dogExistStmt.setString(2, address);
 		ResultSet result = dogExistStmt.executeQuery();
 		
 		if(result.next())
@@ -156,10 +163,10 @@ public class DBAccess{
 		return false;
 	}
 	
-	public boolean searchDog(String name, String owner) throws SQLException {
-		searchDogStmt = connection.prepareStatement("SELECT * from dogs WHERE name = ? AND owner = ?");
+	public boolean searchDog(String name, String address) throws SQLException {
+		searchDogStmt = connection.prepareStatement("SELECT * from dogs WHERE dogName = ? AND ownerAddress = ?");
 		searchDogStmt.setString(1, name);
-		searchDogStmt.setString(2, owner);
+		searchDogStmt.setString(2, address);
 		ResultSet result = searchDogStmt.executeQuery();
 		
 		if(result.next())
@@ -167,24 +174,13 @@ public class DBAccess{
 		return false;
 	}
 	
-//	public List<String> allDogsOfOwner(String owner) throws SQLException {
-//		List<String> dogs = new ArrayList<>();
-//		try {
-//			allDogsOfOwnerStmt = connection.prepareStatement("SELECT * from dogs WHERE owner = ?");
-//			searchDogStmt.setString(1, owner);
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//		return dogs;
-//	}
-	
 	public List<String> allDogs() throws SQLException {
 		List<String> dogs = new ArrayList<>();
 		
 		allDogsStmt = connection.prepareStatement("SELECT * from dogs");
 		ResultSet result = allDogsStmt.executeQuery();
 		while(result.next()) {
-			dogs.add(result.getString("name"));
+			dogs.add(result.getString("dogName"));
 		}
 			
 		return dogs;

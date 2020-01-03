@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import common.ClientCallback;
 
 public class ClientImpl extends UnicastRemoteObject implements ClientCallback{
+	
 	public ClientImpl() throws RemoteException{}
 
 	@Override
@@ -23,17 +24,41 @@ public class ClientImpl extends UnicastRemoteObject implements ClientCallback{
 	}
 	@Override
 	public void loginEmployeeCallback(boolean success, String uname) throws RemoteException {
-		if(success)
+		if(success) {
 			System.out.println("The user: " + uname + " is now logged in");
+		}
 		else
 			System.out.println("Error logging in. Try again or type HELP");
 	}
 	@Override
 	public void logoutEmployeeCallback(boolean success) throws RemoteException {
-		if(success)
+		if(success) {
 			System.out.println("You are now logged out");
+		}
 		else
 			System.out.println("Error logging out. Try again or type HELP");
+	}
+	@Override
+	public void searchOwnerCallback(boolean success, String name, String address) throws RemoteException {
+		if(success) 
+			System.out.println("The owner: " + name + ", does exist in the database");
+		else {
+			System.out.println("No sush owner in the register. Try again or type HELP");
+		}
+	}
+	@Override
+	public void addOwnerCallback(boolean success, String name, String address) throws RemoteException {
+		if(success)
+			System.out.println("The owner: " + name + ", is now registered");
+		else
+			System.out.println("Error adding employee. Try again or type HELP");
+	}
+	@Override
+	public void removeOwnerCallback(boolean success, String name, String address) throws RemoteException {
+		if(success)
+			System.out.println("The owner: " + name + " is now removed");
+		else
+			System.out.println("Error removing employee. Try again or type HELP");
 	}
 	@Override
 	public void addDogCallback(boolean success, String name, String owner) throws RemoteException {
@@ -50,16 +75,16 @@ public class ClientImpl extends UnicastRemoteObject implements ClientCallback{
 			System.out.println("Error removing dog. Try again or type HELP");
 	}
 	@Override
-	public void checkInDogCallback(boolean success, String name, String owner) throws RemoteException {
+	public void checkInDogCallback(boolean success, String name) throws RemoteException {
 		if(success)
-			System.out.println("The dog: " + name + " is now checked in by: " + owner);
+			System.out.println("The dog: " + name + " is now checked in");
 		else
 			System.out.println("Error while checking in. Try again or type HELP");
 	}
 	@Override
-	public void checkOutDogCallback(boolean success, String name, String owner) throws RemoteException {
+	public void checkOutDogCallback(boolean success, String name) throws RemoteException {
 		if(success)
-			System.out.println("The dog: " + name + " is now checked out by: " + owner);
+			System.out.println("The dog: " + name + " is now checked out by");
 		else
 			System.out.println("Error while checking out. Try again or type HELP");
 	}
@@ -75,9 +100,9 @@ public class ClientImpl extends UnicastRemoteObject implements ClientCallback{
 		}
 	}
 	@Override
-	public void searchDogCallback(boolean success, String name, String owner) throws RemoteException {
+	public void searchDogCallback(boolean success, String name, String address) throws RemoteException {
 		if(success) 
-			System.out.println("The owner" + owner + " that owns the dog called: " + name + " does exist in the database");
+			System.out.println("The dog: " + name + ", from address: " + address + ", does exist in the database");
 		else {
 			System.out.println("No sush dog in the register. Try again or type HELP");
 		}

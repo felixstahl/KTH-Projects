@@ -11,13 +11,11 @@ import common.ClientCallback;
 public class Controller extends UnicastRemoteObject implements DayCareServer{
 	private final DBAccess db;
 	private List<String> employeesOnline;
-	//private List<String> ownersOnline;
 	private List<String> dogsCheckedIn;
 	
 	public Controller() throws RemoteException {
 		db = new DBAccess();
 		this.employeesOnline = new ArrayList<String>();
-	//	this.ownersOnline = new ArrayList<String>();
 		this.dogsCheckedIn = new ArrayList<String>();
 	}
 	
@@ -30,12 +28,13 @@ public class Controller extends UnicastRemoteObject implements DayCareServer{
 				if(db.employeeExist(addee) == false){
 					employeeAdded = db.addEmployee(addee, addeePword);
 					if(employeeAdded){
-						System.out.println("User: " + addee + ", is now registered by: " + adder);
+						employeeAdded = true;
+						System.out.println("Employee: " + addee + ", is now registered by: " + adder);
 					}
 				}
 			}
 		} catch(Exception e) {	e.printStackTrace();	}
-		
+
 		obj.addEmployeeCallback(employeeAdded, adder, addee);
 	}
 	
@@ -50,7 +49,7 @@ public class Controller extends UnicastRemoteObject implements DayCareServer{
 				
 				employeeRemoved = db.removeEmployee(removee);
 				if(employeeRemoved){
-					System.out.println("User: " + removee + ", is now removed by: " + remover);
+					System.out.println("Employee: " + removee + ", is now removed by: " + remover);
 				}
 			}
 		} catch(Exception e) {	e.printStackTrace();	}
@@ -67,7 +66,7 @@ public class Controller extends UnicastRemoteObject implements DayCareServer{
 				if(!employeesOnline.contains(uname))
 					loggedIn = employeesOnline.add(uname);
 					if(loggedIn)
-						System.out.println("User: " + uname + ", is now logged in");
+						System.out.println("Employee: " + uname + ", is now logged in");
 				}
 		}catch(Exception e) {	e.printStackTrace();	}
 		
@@ -81,19 +80,61 @@ public class Controller extends UnicastRemoteObject implements DayCareServer{
 		if(employeesOnline.contains(uname)) {
 			success = employeesOnline.remove(uname);
 			if(success)
-				System.out.println("User: " + uname + ", is now logged out");
+				System.out.println("Employee: " + uname + ", is now logged out");
 		}
 		obj.logoutEmployeeCallback(success);
 	}
 	
 	@Override
-	public void addDog(String name, String owner, ClientCallback obj) throws RemoteException {
+	public void searchOwner(String name, String address, ClientCallback obj) throws RemoteException {
+		boolean success = false;
+		
+		try {
+			if(db.searchOwner(name, address))
+				success = true;
+			
+		}catch(Exception e) {	e.printStackTrace();	}
+		
+		obj.searchOwnerCallback(success, name, address);
+	}
+	@Override
+	public void addOwner(String name, String address, ClientCallback obj) throws RemoteException {
+		boolean ownerAdded = false;
+		
+		try {
+			ownerAdded = db.addOwner(name, address);
+			if(ownerAdded){
+				System.out.println("Owner: " + name + ", is now registered");
+			}
+
+		} catch(Exception e) {	e.printStackTrace();	}
+		
+		obj.addOwnerCallback(ownerAdded, name, address);
+	}
+	@Override
+	public void removeOwner(String name, String address, ClientCallback obj) throws RemoteException {
+		boolean ownerRemoved = false;
+		
+		try {
+			ownerRemoved = db.removeOwner(name, address);
+			if(ownerRemoved){
+				System.out.println("Owner: " + name + ", is now removed");
+			}
+		} catch(Exception e) {	e.printStackTrace();	}
+		
+		obj.removeOwnerCallback(ownerRemoved, name, address);
+	}
+	
+	@Override
+	public void addDog(String name, String owner, String address, ClientCallback obj) throws RemoteException {
 		boolean dogAdded = false;
 		
 		try {
-			dogAdded = db.addDog(name, owner);
-			if(dogAdded){
-				System.out.println("Dog: " + name + ", is now registered, owner is: " + owner);
+			if(db.searchOwner(owner, address)) {
+				dogAdded = db.addDog(name, address);
+				if(dogAdded){
+					System.out.println("Dog: " + name + ", is now registered, owner is: " + owner);
+				}
 			}
 
 		} catch(Exception e) {	e.printStackTrace();	}
@@ -102,68 +143,62 @@ public class Controller extends UnicastRemoteObject implements DayCareServer{
 	}
 	
 	@Override
-	public void removeDog(String name, String owner, ClientCallback obj) throws RemoteException {
+	public void removeDog(String name, String address, ClientCallback obj) throws RemoteException {
 		boolean dogRemoved = false;
 		
 		try {
 			if(dogsCheckedIn.contains(name))
 				dogsCheckedIn.remove(name);
 			
-			dogRemoved = db.removeDog(name, owner);
+			dogRemoved = db.removeDog(name, address);
 			if(dogRemoved){
 				System.out.println("Dog: " + name + ", is now removed");
 			}
 		} catch(Exception e) {	e.printStackTrace();	}
 		
-		obj.removeDogCallback(dogRemoved, name, owner);
+		obj.removeDogCallback(dogRemoved, name, address);
 	}
 	
 	@Override
-	public void checkInDog(String name, String owner, ClientCallback obj) throws RemoteException {
+	public void checkInDog(String name, String address, ClientCallback obj) throws RemoteException {
 		boolean checkedIn = false;
 	
 		try {
-			if(db.dogExist(name, owner)) {
+			if(db.dogExist(name, address)) {
 				checkedIn = dogsCheckedIn.add(name);
 				if(checkedIn)
-					System.out.println("Dog: " + name + ", is now dropped off by: " + owner);
+					System.out.println("Dog: " + name + ", is now dropped ");
 			}
 				
 		}catch(Exception e) {	e.printStackTrace();	}
 		
-		obj.checkInDogCallback(checkedIn, name, owner);
+		obj.checkInDogCallback(checkedIn, name);
 	}
 	
 	@Override
-	public void checkOutDog(String name, String owner, ClientCallback obj) throws RemoteException {
+	public void checkOutDog(String name, String address, ClientCallback obj) throws RemoteException {
 		boolean checkedOut = false;
 	
 		if(dogsCheckedIn.contains(name)) {
 			checkedOut = dogsCheckedIn.remove(name);
 			if(checkedOut)
-				System.out.println("Dog: " + name + ", is now picked up by: " + owner);
+				System.out.println("Dog: " + name + ", is now picked up");
 		}
-		obj.checkOutDogCallback(checkedOut, name, owner);
+		obj.checkOutDogCallback(checkedOut, name);
 	}
 	
 	@Override
-	public void searchDog(String name, String owner, ClientCallback obj) throws RemoteException {
+	public void searchDog(String name, String address, ClientCallback obj) throws RemoteException {
 		boolean success = false;
 		
 		try {
-			if(db.searchDog(name, owner))
+			if(db.searchDog(name, address))
 				success = true;
 			
 		}catch(Exception e) {	e.printStackTrace();	}
 		
-		obj.searchDogCallback(success, name, owner);
+		obj.searchDogCallback(success, name, address);
 	}
-	
-//	@Override
-//	public void allDogsOfOwner(String uname, String pword, ClientCallback obj) throws SQLException, RemoteException {
-//		
-//	}
-	
 	@Override
 	public void presentDogs(ClientCallback obj) {
 		try {
