@@ -8,4 +8,4 @@ Task 3 was to create (with RMI) a server with database access, and a client, whi
 
 Task 4 was to create a webapplication for converting money between different currencies, using Spring and Thymeleaf. The mysql db had pre-set values for every currency back and fourth, e.g. SEK to USD and USD to SEK.
 
-Project is soon to come...
+The project is a daycare for dogs using RMI and a database (MS Access) of the employees, owners and dogs.
